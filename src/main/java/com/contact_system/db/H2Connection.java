@@ -19,8 +19,15 @@ public class H2Connection {
             if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection(getDB_URL());
 
-                connection.prepareStatement("CREATE TABLE IF NOT EXISTS tb_user (" + "id INT PRIMARY KEY AUTO_INCREMENT, " + "name VARCHAR(255), " + "password VARCHAR(255), " + "phone_number VARCHAR(14))").executeUpdate();
-                connection.prepareStatement("CREATE TABLE IF NOT EXISTS tb_telephone (" + "id INT PRIMARY KEY AUTO_INCREMENT, " + "user_id INT, " + "number VARCHAR(14), " + "FOREIGN KEY (user_id) REFERENCES tb_user(id))").executeUpdate();
+                connection.prepareStatement("CREATE TABLE IF NOT EXISTS tb_user (" +
+                        "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                        "name VARCHAR(255), " +
+                        "password VARCHAR(255))").executeUpdate();
+                connection.prepareStatement("CREATE TABLE IF NOT EXISTS tb_telephone (" +
+                        "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                        "user_id INT, " +
+                        "number VARCHAR(14) UNIQUE, " +
+                        "FOREIGN KEY (user_id) REFERENCES tb_user(id))").executeUpdate();
             }
 
             return connection;
